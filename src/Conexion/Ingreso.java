@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author JP
@@ -19,6 +20,65 @@ public class Ingreso extends javax.swing.JFrame {
      */
     public Ingreso() {
         initComponents();
+        mostrarDatos("");
+    }
+    
+    void mostrarDatos(String valor){
+    
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Titulo");
+        modelo.addColumn("Compañia");
+        modelo.addColumn("Genero");
+        modelo.addColumn("Plataforma");
+        modelo.addColumn("Año");
+        
+        tbProductos.setModel(modelo);
+        String sql="";
+        if(valor.equals("")){
+            
+            sql="SELECT * FROM juegos";
+        }
+        else {
+        
+        
+        sql="select * from juegos WHERE id='"+valor+"'";
+       
+        
+             }
+        
+        
+        
+        
+                
+          
+        
+        
+        
+       
+        
+            
+        String [] datos=new String [6];
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                datos[3]=rs.getString(4);
+                datos[4]=rs.getString(5);
+                datos[5]=rs.getString(6);
+                modelo.addRow(datos);
+                
+            
+            }
+            tbProductos.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(Ingreso.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    
     }
 
     /**
@@ -30,6 +90,9 @@ public class Ingreso extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         LTit = new javax.swing.JLabel();
         LCom = new javax.swing.JLabel();
@@ -43,18 +106,49 @@ public class Ingreso extends javax.swing.JFrame {
         TAn = new javax.swing.JTextField();
         BIng = new javax.swing.JButton();
         BNue = new javax.swing.JButton();
+        B_Actu = new javax.swing.JButton();
+        TTid = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
+        L_Tit = new javax.swing.JLabel();
+        T_ID = new javax.swing.JTextField();
+        B_Buscar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbProductos = new javax.swing.JTable();
+        B_mostrartodos = new javax.swing.JButton();
+
+        jMenuItem1.setText("modificar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(jMenuItem1);
+
+        jMenuItem2.setText("eliminar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(jMenuItem2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        LTit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         LTit.setText("Titulo");
 
+        LCom.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         LCom.setText("Compañia");
 
+        LGen.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         LGen.setText("Genero");
 
+        LPla.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         LPla.setText("Plataforma");
 
+        LAn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         LAn.setText("Año");
 
         TTit.addActionListener(new java.awt.event.ActionListener() {
@@ -87,6 +181,7 @@ public class Ingreso extends javax.swing.JFrame {
             }
         });
 
+        BIng.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         BIng.setText("INGRESAR");
         BIng.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,10 +189,19 @@ public class Ingreso extends javax.swing.JFrame {
             }
         });
 
+        BNue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         BNue.setText("NUEVO");
         BNue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BNueActionPerformed(evt);
+            }
+        });
+
+        B_Actu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        B_Actu.setText("ACTUALIZAR");
+        B_Actu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_ActuActionPerformed(evt);
             }
         });
 
@@ -106,27 +210,35 @@ public class Ingreso extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(216, 216, 216)
+                        .addComponent(TAn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(BNue, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(BIng)
+                        .addGap(58, 58, 58)
+                        .addComponent(B_Actu)))
+                .addContainerGap(201, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(LPla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(LGen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(LTit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(LCom, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(LGen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(LTit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(LCom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(LAn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(113, 113, 113)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(BNue, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                        .addComponent(BIng, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(TTit)
-                        .addComponent(TCom)
-                        .addComponent(TGen)
-                        .addComponent(TPla, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-                        .addComponent(TAn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(278, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(TTit, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                    .addComponent(TCom)
+                    .addComponent(TGen)
+                    .addComponent(TPla))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(TTid, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,7 +248,8 @@ public class Ingreso extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TTit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LTit))
+                            .addComponent(LTit)
+                            .addComponent(TTid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -148,26 +261,85 @@ public class Ingreso extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(TPla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LPla))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(LPla)
+                                .addGap(6, 6, 6)))
                         .addGap(31, 31, 31)
                         .addComponent(TAn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(LAn))
                 .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BIng)
-                    .addComponent(BNue))
+                    .addComponent(BNue)
+                    .addComponent(B_Actu))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        L_Tit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        L_Tit.setText("ID");
+
+        B_Buscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        B_Buscar.setText("BUSCAR");
+        B_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_BuscarActionPerformed(evt);
+            }
+        });
+
+        tbProductos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tbProductos.setColumnSelectionAllowed(true);
+        tbProductos.setComponentPopupMenu(jPopupMenu2);
+        jScrollPane1.setViewportView(tbProductos);
+
+        B_mostrartodos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        B_mostrartodos.setText("MOSTRAR TODOS");
+        B_mostrartodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_mostrartodosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(B_Buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                            .addComponent(L_Tit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(T_ID))
+                        .addGap(31, 31, 31)
+                        .addComponent(B_mostrartodos)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(37, 37, 37))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 235, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(L_Tit)
+                .addGap(18, 18, 18)
+                .addComponent(T_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(B_Buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(B_mostrartodos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -175,7 +347,7 @@ public class Ingreso extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,39 +381,31 @@ public class Ingreso extends javax.swing.JFrame {
     }//GEN-LAST:event_TAnActionPerformed
 
     private void BIngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BIngActionPerformed
-    Conectar con=new Conectar();
-    Connection reg = con.Conexion();
-    String tit,com,gen,pla,an;
-    String sql;
+    
+   
         
-    tit=TTit.getText();
-    com=TCom.getText();
-    gen=TGen.getText();
-    pla=TPla.getText();
-    an=TAn.getText();
-    sql="INSERT INTO juegos (titulo,companhia,genero,plataforma,anho)VALUES(?,?,?,?,?)";
+    
+  
         try {
-            PreparedStatement pst=reg.prepareStatement(sql);
+            PreparedStatement pst=cn.prepareStatement("INSERT INTO juegos (titulo,companhia,genero,plataforma,anho)VALUES(?,?,?,?,?)");
                 
-            pst.setString(1, tit);
-            pst.setString(2, com);
-            pst.setString(3, gen);
-            pst.setString(4, pla);
-            pst.setString(5, an);
-            int n=pst.executeUpdate();
+            pst.setString(1,TTit.getText());
+            pst.setString(2,TCom.getText());
+            pst.setString(3,TGen.getText());
+            pst.setString(4,TPla.getText());
+            pst.setString(5,TAn.getText());
+            pst.executeUpdate();
+            mostrarDatos("");
             
-            if (n>0){
-            
-            JOptionPane.showMessageDialog(null,"registrado");
-            
-            }
+           
                 
             
            
             
                     
                     
-              } catch (SQLException ex) {
+              } catch (Exception ex) {
+                  System.out.println(ex.getMessage());
             Logger.getLogger(Ingreso.class.getName()).log(Level.SEVERE, null, ex);
         }
   
@@ -263,6 +427,57 @@ public class Ingreso extends javax.swing.JFrame {
         TPla.setText("");
         TAn.setText("");
     }//GEN-LAST:event_BNueActionPerformed
+
+    private void B_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_BuscarActionPerformed
+    
+    mostrarDatos(T_ID.getText());
+
+    }//GEN-LAST:event_B_BuscarActionPerformed
+
+    private void B_mostrartodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_mostrartodosActionPerformed
+     mostrarDatos("");
+    }//GEN-LAST:event_B_mostrartodosActionPerformed
+
+    private void B_ActuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_ActuActionPerformed
+    try {
+         PreparedStatement pst = cn.prepareStatement("UPDATE juegos SET titulo='"+TTit.getText()+"',companhia='"+TCom.getText()+"',genero='"+TGen.getText()+"',plataforma='"+TPla.getText()+"',anho='"+TAn.getText()+"'WHERE id='"+TTid.getText()+"'");
+         pst.executeUpdate();
+         mostrarDatos("");
+    } catch (Exception e){
+        
+        System.out.println(e.getMessage());
+    }
+    }//GEN-LAST:event_B_ActuActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+     int fila= tbProductos.getSelectedRow();
+     if(fila>=0){
+         TTid.setText(tbProductos.getValueAt(fila, 0).toString());
+         TTit.setText(tbProductos.getValueAt(fila, 1).toString());
+         TCom.setText(tbProductos.getValueAt(fila, 2).toString());
+         TGen.setText(tbProductos.getValueAt(fila, 3).toString());
+         TPla.setText(tbProductos.getValueAt(fila, 4).toString());
+         TAn.setText(tbProductos.getValueAt(fila, 5).toString());
+     }
+     else{
+     JOptionPane.showMessageDialog(null, "No ha seleccionado una fila");
+     }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        int fila  = tbProductos.getSelectedRow();
+        
+        String id="";
+        id=tbProductos.getValueAt(fila, 0).toString();
+        
+        try{
+        PreparedStatement pst = cn.prepareStatement("DELETE FROM juegos WHERE id='"+id+"'");
+        pst.executeUpdate();
+        mostrarDatos("");
+        }catch (Exception e){
+        }
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -302,17 +517,32 @@ public class Ingreso extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BIng;
     private javax.swing.JButton BNue;
+    private javax.swing.JButton B_Actu;
+    private javax.swing.JButton B_Buscar;
+    private javax.swing.JButton B_mostrartodos;
     private javax.swing.JLabel LAn;
     private javax.swing.JLabel LCom;
     private javax.swing.JLabel LGen;
     private javax.swing.JLabel LPla;
     private javax.swing.JLabel LTit;
+    private javax.swing.JLabel L_Tit;
     private javax.swing.JTextField TAn;
     private javax.swing.JTextField TCom;
     private javax.swing.JTextField TGen;
     private javax.swing.JTextField TPla;
+    private javax.swing.JTextField TTid;
     private javax.swing.JTextField TTit;
+    private javax.swing.JTextField T_ID;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPopupMenu jPopupMenu2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tbProductos;
     // End of variables declaration//GEN-END:variables
+
+    Conectar con=new Conectar();
+    Connection cn = con.Conexion();
+
 }
